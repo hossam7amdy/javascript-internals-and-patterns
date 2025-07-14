@@ -1,0 +1,37 @@
+{
+  "name": "javascript-internals-and-patterns",
+  "displayName": "JavaScript Internals and Patterns",
+  "description": "This repository includes TypeScript implementations and examples of various design patterns, along with explanations of JavaScript's core concepts.",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hossam7amdy/javascript-internals-and-patterns.git"
+  },
+  "keywords": [
+    "javascript",
+    "internals",
+    "patterns",
+    "design-patterns",
+    "typescript"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "vitest",
+    "build": "tsc",
+    "format": "prettier --write ."
+  },
+  "author": "Hossam Hamdy <hossamhamdy117@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^24.0.3",
+    "prettier": "3.6.2",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
+  }
+}
