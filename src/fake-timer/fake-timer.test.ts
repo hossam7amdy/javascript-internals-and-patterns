@@ -81,10 +81,46 @@ describe('FakeTimer', () => {
     clearTimeout(timeoutId)
   })
 
+  it('should handle setInterval and clearInterval correctly', () => {
+    fakeTimer.install()
+
+    const callback = vi.fn()
+    let count = 0
+    const id = setInterval(() => {
+      count++
+      if (count > 1) {
+        clearInterval(id)
+      }
+      callback()
+    }, 100)
+
+    expect(callback).not.toBeCalled()
+
+    fakeTimer.tick()
+
+    // Interval should execute multiple times
+    expect(callback).toBeCalledTimes(2)
+    expect(Date.now()).toBe(200)
+  })
+
+  it('should clear interval when clearInterval is called', () => {
+    fakeTimer.install()
+
+    const callback = vi.fn()
+    const intervalId = setInterval(callback, 500)
+
+    clearInterval(intervalId)
+    fakeTimer.tick()
+
+    expect(callback).not.toBeCalled()
+  })
+
   it('should restore original APIs when uninstalled', () => {
     const originalDateNow = Date.now
     const originalSetTimeout = setTimeout
     const originalClearTimeout = clearTimeout
+    const originalSetInterval = setInterval
+    const originalClearInterval = clearInterval
 
     fakeTimer.install()
 
@@ -92,6 +128,8 @@ describe('FakeTimer', () => {
     expect(Date.now).not.toBe(originalDateNow)
     expect(setTimeout).not.toBe(originalSetTimeout)
     expect(clearTimeout).not.toBe(originalClearTimeout)
+    expect(setInterval).not.toBe(originalSetInterval)
+    expect(clearInterval).not.toBe(originalClearInterval)
 
     fakeTimer.uninstall()
 
@@ -99,5 +137,7 @@ describe('FakeTimer', () => {
     expect(Date.now).toBe(originalDateNow)
     expect(setTimeout).toBe(originalSetTimeout)
     expect(clearTimeout).toBe(originalClearTimeout)
+    expect(setInterval).toBe(originalSetInterval)
+    expect(clearInterval).toBe(originalClearInterval)
   })
 })
