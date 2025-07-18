@@ -74,11 +74,16 @@ export const createGetAPIWithMerging = (
     }
 
     promise = new Promise((resolve, reject) => {
-      getAPI(path, config).then(resolve, error => {
-        cache.delete(cacheKey)
-        reject(error)
-      })
+      try {
+        resolve(getAPI(path, config))
+      } catch (err) {
+        reject(err)
+      }
+    }).catch(error => {
+      cache.delete(cacheKey)
+      throw error
     })
+
     cache.set(cacheKey, promise)
     return promise
   }
